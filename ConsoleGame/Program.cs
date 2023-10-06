@@ -1,4 +1,5 @@
 ﻿using ConsoleGame.GameEngine;
+using ConsoleGame.GameObjects;
 using System.Numerics;
 
 namespace ConsoleGame
@@ -12,17 +13,13 @@ namespace ConsoleGame
             var graphicsManager = new GraphicsManager(game);
 
             // Кастомные сущности в игре сделанные нами
-            //var player = new Player();
-            var player = new СonsoleCursor();
-            //var dog = new Dog();
-            //player.RegisterDog(dog);
-            //var walls = new Terrain();
+            var player = new Player();
+
+            var terrain = new Terrain();
 
             // Register your custom Entity
-            //game.RegisterEntity(player);
             game.RegisterEntity(player);
-            //game.RegisterEntity(dog);
-            //game.RegisterEntity(walls);
+            game.RegisterEntity(terrain);
 
             // Standard Game Loop
             game.Start();
@@ -36,7 +33,7 @@ namespace ConsoleGame
                 graphicsManager.Draw();
 
                 // Просто чтобы не забивать процессор
-                Thread.Sleep(200);
+                Thread.Sleep(20);
             }
         }
     }

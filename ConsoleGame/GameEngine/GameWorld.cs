@@ -28,7 +28,7 @@ namespace ConsoleGame.GameEngine
         private List<GameEntity> _entities = new List<GameEntity>();
         //TODO посмотреть на замену null значением по умолчанию
         private ConsoleUI? _ui = null;
-        private СonsoleCursor? _cursor = null;
+
         /// <summary>
         /// Блокировка доступа к _board (стены GameWorld)
         /// </summary>
@@ -74,8 +74,6 @@ namespace ConsoleGame.GameEngine
                 }
             }
 
-            if (_cursor != null)
-                _cursor.Start();
         }
 
         /// <summary>
@@ -96,9 +94,7 @@ namespace ConsoleGame.GameEngine
                         }
                     }
                 }
-
-                if (_cursor != null)
-                    _board[_cursor.X, _cursor.Y] = _cursor.Model;
+                 
 
                 if (_ui != null)
                     _ui.Update();
@@ -152,15 +148,6 @@ namespace ConsoleGame.GameEngine
             return null;
         }
 
-        /// <summary>
-        /// Зарегистрируйте консольный курсор в GameWorld
-        /// </summary>
-        /// <param name="cursor"></param>
-        public void RegisterCursor(СonsoleCursor cursor)
-        {
-            _cursor = cursor;
-            _cursor._gameWorld = this;
-        }
 
         /// <summary>
         /// Зарегистрируйте  отрисовка UI с GameWorld

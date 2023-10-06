@@ -3,7 +3,7 @@
     /// <summary>
     ///  Персонаж и Управление по умолчанию
     /// </summary>
-    internal class СonsoleCursor : GameEntity
+    internal class ConsoleCursor : GameEntity
     {
         /// <summary>
         /// Чем мы будем управлять
