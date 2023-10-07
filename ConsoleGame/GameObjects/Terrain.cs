@@ -40,7 +40,7 @@ namespace ConsoleGame.GameObjects
             }
 
 
-            Thread animationThread = new(Animate);
+            Task animationThread = new(Animate);
             animationThread.Start();
         }
 
