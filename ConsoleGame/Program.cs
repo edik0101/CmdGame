@@ -20,7 +20,7 @@ namespace ConsoleGame
             // Register your custom Entity
             game.RegisterEntity(player);
             game.RegisterEntity(terrain);
-
+            
             // Standard Game Loop
             game.Start();
             while (true)

@@ -17,12 +17,111 @@ namespace ConsoleGame.GameObjects
 
         public override void Start()
         {
-            Model = new List<Cell>() { new Cell(0,0,"*")};
-            for(int i = 0; i < _gameWorld.X; i++)
-            {
-                Model.Add(new Cell(i,18,"="));
 
+            Model = new() { new Cell(7, 2, "_"), new Cell(8, 2, "_"), new Cell(9, 2, "_"),
+            new Cell(6,3, "("), new Cell(7,3, "_"), new Cell(8,3, "_"), new Cell(9,3, "_"), new Cell(10,3, ")"),
+            new Cell(5,4,"("), new Cell(6,4, "_"), new Cell(7,4, "_"), new Cell(8,4, "_"), new Cell(9,4, "_"), new Cell(10,4, "_"),new Cell(11,4, ")"),
+
+            new Cell(23, 1, "_"), new Cell(24, 1, "_"), new Cell(25, 1, "_") ,
+            new Cell(22,2, "("), new Cell(23,2, "_"), new Cell(24,2, "_"), new Cell(25,2, "_"), new Cell(26,2, ")"),
+            new Cell(21,3,"("), new Cell(22,3, "_"), new Cell(23,3, "_"), new Cell(24,3, "_"), new Cell(25,3, "_"), new Cell(26,3, "_"),new Cell(27,3, ")"),
+
+            new Cell(43, 2, "C"), new Cell(44, 2, "M"), new Cell(45, 2, "D"),
+            new Cell(42,3,"G"), new Cell(43,3, "A"), new Cell(44,3, "M"), new Cell(45,3, "E"),
+            new Cell(6, 5, "*"),new Cell(7, 5, " "),new Cell(8, 5, "*"),new Cell(8, 5, "*"),new Cell(9, 5, " "),new Cell(10, 5, "*"),
+            new Cell(6, 6, " "),new Cell(7, 6, "*"),new Cell(8, 6, " "),new Cell(9, 6, "*"),new Cell(10, 6, " "),
+            new Cell(25, 17, "|"), new Cell(26, 17, "|")
+        };
+
+            for (int i = 0; i < _gameWorld.X; i++)
+            {
+                Model.Add(new Cell(i, 18, "="));
+                Model.Add(new Cell(i, 19, "#"));
+            }
+
+
+            Thread animationThread = new(Animate);
+            animationThread.Start();
+        }
+
+        /// <summary>
+        /// Анимация
+        /// </summary>
+        private void Animate()
+        {
+            while (true)
+            {
+                foreach (Cell cell in Model)
+                {
+                    if (GetAnimatedCell(cell))
+                    {
+                        if (cell.Contents == "*")
+                            cell.Contents = " ";
+                        else cell.Contents = "*";
+                    }
+                    //if (cell.Contents == "*")
+                    //    cell.Contents = "+";
+                    //else if (cell.Contents == "+")
+                    //    cell.Contents = "*";
+                    //if (cell.X == 6 && cell.Y == 5 && cell.Contents == "*")
+                    //    cell.Contents = " ";
+                    //else if (cell.X == 7 && cell.Y == 5 && cell.Contents == " ")
+                    //    cell.Contents = "*";
+                    //else if (cell.X == 6 && cell.Y == 5 && cell.Contents == " ")
+                    //    cell.Contents = "*";
+                    //else if (cell.X == 7 && cell.Y == 5 && cell.Contents == "*")
+                    //    cell.Contents = " ";
+                    //else if(cell.X == 8 && cell.Y == 5 && cell.Contents == "*")
+                    //    cell.Contents = " ";
+                    //else if (cell.X == 9 && cell.Y == 5 && cell.Contents == " ")
+                    //    cell.Contents = "*";
+                    //else if (cell.X == 8 && cell.Y == 5 && cell.Contents == " ")
+                    //    cell.Contents = "*";
+                    //else if (cell.X == 9 && cell.Y == 5 && cell.Contents == "*")
+                    //    cell.Contents = " ";
+                    //else if (cell.X == 10 && cell.Y == 5 && cell.Contents == "*")
+                    //    cell.Contents = " ";
+                    //else if (cell.X == 11 && cell.Y == 5 && cell.Contents == " ")
+                    //    cell.Contents = "*";
+                    //else if (cell.X == 10 && cell.Y == 5 && cell.Contents == " ")
+                    //    cell.Contents = "*";
+                    //else if (cell.X == 11 && cell.Y == 5 && cell.Contents == "*")
+                    //    cell.Contents = " ";
+
+                    //if (cell.X == 6 && cell.Y == 6 && cell.Contents == "*")
+                    //    cell.Contents = " ";
+                    //else if (cell.X == 7 && cell.Y == 6 && cell.Contents == " ")
+                    //    cell.Contents = "*";
+                    //else if (cell.X == 6 && cell.Y == 6 && cell.Contents == " ")
+                    //    cell.Contents = "*";
+                    //else if (cell.X == 7 && cell.Y == 6 && cell.Contents == "*")
+                    //    cell.Contents = " ";
+                    //else if (cell.X == 8 && cell.Y == 6 && cell.Contents == "*")
+                    //    cell.Contents = " ";
+                    //else if (cell.X == 9 && cell.Y == 6 && cell.Contents == " ")
+                    //    cell.Contents = "*";
+                    //else if (cell.X == 8 && cell.Y == 6 && cell.Contents == " ")
+                    //    cell.Contents = "*";
+                    //else if (cell.X == 9 && cell.Y == 6 && cell.Contents == "*")
+                    //    cell.Contents = " ";
+                    //else if (cell.X == 10 && cell.Y == 6 && cell.Contents == "*")
+                    //    cell.Contents = " ";
+                    //else if (cell.X == 11 && cell.Y == 6 && cell.Contents == " ")
+                    //    cell.Contents = "*";
+                    //else if (cell.X == 10 && cell.Y == 6 && cell.Contents == " ")
+                    //    cell.Contents = "*";
+                    //else if (cell.X == 11 && cell.Y == 6 && cell.Contents == "*")
+                    //    cell.Contents = " ";
+                }
+                Thread.Sleep(2000);
             }
         }
+        private bool GetAnimatedCell(Cell cell)
+        {
+            if (Enumerable.Range(6,11).Contains(cell.X) && Enumerable.Range(5, 6).Contains(cell.Y))
+                return true;
+            else
+                return false;
+        } 
     }
 }

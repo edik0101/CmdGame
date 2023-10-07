@@ -11,9 +11,7 @@
         //         o
         //        /O\
         //        | |
-        public List<Cell> Model = new List<Cell> { new Cell(0,15," "), new Cell(1,15,"o"), new Cell(2,15," "), 
-            new Cell(0,16, "/"), new Cell(1,16, "O"), new Cell(2,16, "\\"),
-            new Cell(0,17,"|"), new Cell(1,17, " "),new Cell(2,17, "|") };
+        public List<Cell> Model;
         /// <summary>
         /// Получения кординат нашего объекта управления по Х
         /// </summary>
@@ -37,6 +35,9 @@
         /// </summary>
         public override void Start()
         {
+            Model = new List<Cell> { new Cell(3,15," "), new Cell(4,15,"o"), new Cell(5,15," "),
+            new Cell(3,16, "/"), new Cell(4,16, "O"), new Cell(5,16, "\\"),
+            new Cell(3,17,"|"), new Cell(4,17, " "),new Cell(5,17, "|") };
             Task playerControllerThread = new(Controller);
             playerControllerThread.Start();
             Task animationThread = new(Animate);
@@ -58,7 +59,7 @@
 
                 keypress = Console.ReadKey(true);
 
-                if (keypress.KeyChar == 'a' && Model.FirstOrDefault()!.X != 0)
+                if (keypress.KeyChar == 'a' && Model.FirstOrDefault()!.X != 2)
                 {
                     foreach (Cell cell in Model)
                     {
@@ -66,30 +67,13 @@
                     }
                 }
 
-                if (keypress.KeyChar == 'd' && Model.FirstOrDefault()!.X != _gameWorld.X - 3)
+                if (keypress.KeyChar == 'd' && Model.FirstOrDefault()!.X != _gameWorld.X - 28)
                 {
                     foreach (Cell cell in Model)
                     {
                         cell.X += 1;
                     }
                 }
-
-                //if (keypress.KeyChar == 'w' && Model.FirstOrDefault()!.Y != 0)
-                //{
-                //    foreach (Cell cell in Model)
-                //    {
-                //        cell.Y -= 1;
-                //    }
-                //}
-
-
-                //if (keypress.KeyChar == 's' && Model.FirstOrDefault()!.Y != _gameWorld.Y - 3)
-                //{
-                //    foreach (Cell cell in Model)
-                //    {
-                //        cell.Y += 1;
-                //    }
-                //}
 
                 if (keypress.KeyChar == ' ')
                     currentCell = _gameWorld.GetCell(Model.FirstOrDefault()!);
@@ -110,7 +94,6 @@
                         cell.Contents = "|";
                     
                 }
-               
 
                 Thread.Sleep(1000);
             }
