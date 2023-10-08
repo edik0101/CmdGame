@@ -14,11 +14,16 @@ namespace ConsoleGame
 
             // Кастомные сущности в игре сделанные нами
             var player = new Player();
-
+            var enemy = new Enemy();
+            var power = new Power();
+            var boolet = new Boolet();
             var terrain = new Terrain();
 
             // Register your custom Entity
             game.RegisterEntity(player);
+            game.RegisterEntity(enemy);
+            game.RegisterEntity(boolet);
+            game.RegisterEntity(power);
             game.RegisterEntity(terrain);
             
             // Standard Game Loop

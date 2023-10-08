@@ -59,63 +59,15 @@ namespace ConsoleGame.GameObjects
                             cell.Contents = " ";
                         else cell.Contents = "*";
                     }
-                    //if (cell.Contents == "*")
-                    //    cell.Contents = "+";
-                    //else if (cell.Contents == "+")
-                    //    cell.Contents = "*";
-                    //if (cell.X == 6 && cell.Y == 5 && cell.Contents == "*")
-                    //    cell.Contents = " ";
-                    //else if (cell.X == 7 && cell.Y == 5 && cell.Contents == " ")
-                    //    cell.Contents = "*";
-                    //else if (cell.X == 6 && cell.Y == 5 && cell.Contents == " ")
-                    //    cell.Contents = "*";
-                    //else if (cell.X == 7 && cell.Y == 5 && cell.Contents == "*")
-                    //    cell.Contents = " ";
-                    //else if(cell.X == 8 && cell.Y == 5 && cell.Contents == "*")
-                    //    cell.Contents = " ";
-                    //else if (cell.X == 9 && cell.Y == 5 && cell.Contents == " ")
-                    //    cell.Contents = "*";
-                    //else if (cell.X == 8 && cell.Y == 5 && cell.Contents == " ")
-                    //    cell.Contents = "*";
-                    //else if (cell.X == 9 && cell.Y == 5 && cell.Contents == "*")
-                    //    cell.Contents = " ";
-                    //else if (cell.X == 10 && cell.Y == 5 && cell.Contents == "*")
-                    //    cell.Contents = " ";
-                    //else if (cell.X == 11 && cell.Y == 5 && cell.Contents == " ")
-                    //    cell.Contents = "*";
-                    //else if (cell.X == 10 && cell.Y == 5 && cell.Contents == " ")
-                    //    cell.Contents = "*";
-                    //else if (cell.X == 11 && cell.Y == 5 && cell.Contents == "*")
-                    //    cell.Contents = " ";
-
-                    //if (cell.X == 6 && cell.Y == 6 && cell.Contents == "*")
-                    //    cell.Contents = " ";
-                    //else if (cell.X == 7 && cell.Y == 6 && cell.Contents == " ")
-                    //    cell.Contents = "*";
-                    //else if (cell.X == 6 && cell.Y == 6 && cell.Contents == " ")
-                    //    cell.Contents = "*";
-                    //else if (cell.X == 7 && cell.Y == 6 && cell.Contents == "*")
-                    //    cell.Contents = " ";
-                    //else if (cell.X == 8 && cell.Y == 6 && cell.Contents == "*")
-                    //    cell.Contents = " ";
-                    //else if (cell.X == 9 && cell.Y == 6 && cell.Contents == " ")
-                    //    cell.Contents = "*";
-                    //else if (cell.X == 8 && cell.Y == 6 && cell.Contents == " ")
-                    //    cell.Contents = "*";
-                    //else if (cell.X == 9 && cell.Y == 6 && cell.Contents == "*")
-                    //    cell.Contents = " ";
-                    //else if (cell.X == 10 && cell.Y == 6 && cell.Contents == "*")
-                    //    cell.Contents = " ";
-                    //else if (cell.X == 11 && cell.Y == 6 && cell.Contents == " ")
-                    //    cell.Contents = "*";
-                    //else if (cell.X == 10 && cell.Y == 6 && cell.Contents == " ")
-                    //    cell.Contents = "*";
-                    //else if (cell.X == 11 && cell.Y == 6 && cell.Contents == "*")
-                    //    cell.Contents = " ";
                 }
                 Thread.Sleep(2000);
             }
         }
+        /// <summary>
+        /// Получение Cell по условию
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <returns></returns>
         private bool GetAnimatedCell(Cell cell)
         {
             if (Enumerable.Range(6,11).Contains(cell.X) && Enumerable.Range(5, 6).Contains(cell.Y))

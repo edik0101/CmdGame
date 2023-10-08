@@ -128,7 +128,17 @@ namespace ConsoleGame.GameEngine
                 entity.Start();
             }
         }
-
+        /// <summary>
+        /// Получить все Entitys
+        /// </summary>
+        /// <param name="entity"></param>
+        public List<GameEntity> GetEntitys()
+        {
+            lock (_entitiesLock)
+            {
+                return _entities;
+            }
+        }
         /// <summary>
         /// Получить GameEntity, назначенной ячейке
         /// </summary>
