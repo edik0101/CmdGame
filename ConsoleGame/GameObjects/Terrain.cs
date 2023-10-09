@@ -74,6 +74,18 @@ namespace ConsoleGame.GameObjects
                 return true;
             else
                 return false;
-        } 
+        }
+
+        /// <summary>
+        /// Получение Cell по условию
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <returns></returns>
+        public void SetGameOwer() {
+            Model.Add(new Cell(42, 4, "O"));
+            Model.Add(new Cell(43, 4, "V"));
+            Model.Add(new Cell(44, 4, "E"));
+            Model.Add(new Cell(45, 4, "R"));
+        }
     }
 }

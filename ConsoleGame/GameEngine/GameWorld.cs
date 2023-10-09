@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleGame.GameObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -75,7 +76,8 @@ namespace ConsoleGame.GameEngine
             }
 
         }
-
+        int playerStomachX = 0;
+        bool gameOver = false;
         /// <summary>
         /// Обнавление GameWorld каждый frame
         /// </summary>
@@ -86,11 +88,50 @@ namespace ConsoleGame.GameEngine
                 lock (_entitiesLock)
                 {
                     InitiateGameBoard();
-                    foreach (GameEntity entity in _entities)
+                    if (gameOver)
                     {
+                        Player _entiti = null;
+                        foreach (var entity in _entities)
+                        {
+                            if (entity.GetType().Name == "Player")
+                            {
+                                _entiti = (Player)entity;
+                            }
+                            if (entity.GetType().Name == "Terrain")
+                            {
+                                (entity as Terrain).SetGameOwer();
+                            }
+                        }
+                        if(_entiti != null)
+                            _entities.Remove(_entiti);
+
+                    } 
+                    foreach (var entity in _entities)
+                    {
+                        
                         foreach (Cell cell in entity.GetCells())
                         {
                             _board[cell.X, cell.Y] = cell;
+                        }
+                        if (entity.GetType().Name == "Player")
+                        {
+                            foreach (Cell cell in entity.GetCells())
+                            {
+                                if (cell.Contents == "O")
+                                {
+                                    playerStomachX = cell.X;
+                                }
+                            }
+                        }
+                        if (entity.GetType().Name == "Boolet")
+                        {
+                            foreach (Cell cell in entity.GetCells())
+                            {
+                                if (cell.X == playerStomachX)
+                                {
+                                    gameOver = true;
+                                }
+                            }
                         }
                     }
                 }
