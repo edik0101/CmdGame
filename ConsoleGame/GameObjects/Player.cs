@@ -40,8 +40,6 @@
             new Cell(3,17,"|"), new Cell(4,17, " "),new Cell(5,17, "|") };
             Task playerControllerThread = new(Controller);
             playerControllerThread.Start();
-            Task animationThread = new(Animate);
-            animationThread.Start();
         }
 
         /// <summary>
@@ -52,7 +50,6 @@
         protected virtual void Controller()
         {
             ConsoleKeyInfo keypress;
-            Cell currentCell;
 
             while (true)
             {
@@ -76,26 +73,29 @@
                 }
 
                 if (keypress.KeyChar == ' ')
-                    currentCell = _gameWorld.GetCell(Model.FirstOrDefault()!);
+                    Jump();
             }
         }
+      
         /// <summary>
-        /// Анимация
+        /// Прыжок
         /// </summary>
-        private void Animate()
+        private void Jump()
         {
-            while (true)
+            
+            foreach (Cell cell in Model)
             {
-                foreach(Cell cell in Model)
-                {
-                    if(cell.Contents == "|")
-                        cell.Contents = ">";
-                    else if (cell.Contents == ">")
-                        cell.Contents = "|";
-                    
-                }
+                cell.Y -= 2;
+                if (cell.Contents == "|")
+                    cell.Contents = ">";
+            }
 
-                Thread.Sleep(1000);
+            Thread.Sleep(1200);
+            foreach (Cell cell in Model)
+            {
+                cell.Y += 2;
+                if (cell.Contents == ">")
+                    cell.Contents = "|";
             }
         }
     }

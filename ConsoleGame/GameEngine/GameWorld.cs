@@ -77,6 +77,7 @@ namespace ConsoleGame.GameEngine
 
         }
         int playerStomachX = 0;
+        int playerStomachY = 0;
         bool gameOver = false;
         /// <summary>
         /// Обнавление GameWorld каждый frame
@@ -97,13 +98,11 @@ namespace ConsoleGame.GameEngine
                             {
                                 _entiti = (Player)entity;
                             }
-                            if (entity.GetType().Name == "Terrain")
-                            {
-                                (entity as Terrain).SetGameOwer();
-                            }
                         }
                         if(_entiti != null)
                             _entities.Remove(_entiti);
+                        GameOver gameOver = new GameOver();
+                        _entities.Add(gameOver);
 
                     } 
                     foreach (var entity in _entities)
@@ -120,6 +119,7 @@ namespace ConsoleGame.GameEngine
                                 if (cell.Contents == "O")
                                 {
                                     playerStomachX = cell.X;
+                                    playerStomachY = cell.Y;
                                 }
                             }
                         }
@@ -127,7 +127,7 @@ namespace ConsoleGame.GameEngine
                         {
                             foreach (Cell cell in entity.GetCells())
                             {
-                                if (cell.X == playerStomachX)
+                                if (cell.Y == playerStomachY && cell.X == playerStomachX)
                                 {
                                     gameOver = true;
                                 }
