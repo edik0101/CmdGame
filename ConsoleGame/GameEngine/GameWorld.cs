@@ -100,9 +100,8 @@ namespace ConsoleGame.GameEngine
                         InitiateGameBoard();
                         if (_entities.Count == 0)
                             return;
-                        if (gameOver)
+                        if (gameOver) //если игрок погиб
                         {
-                            
                             foreach (var entity in _entities)
                             {
                                 if (entity.GetType().Name == "Player")
@@ -110,8 +109,8 @@ namespace ConsoleGame.GameEngine
                                     _entitiPlayer = (Player)entity;
                                 }
                             }
+                            // если игрук есть то убираем
                             var playerIndex = _entities.FindIndex(x => x == _entitiPlayer);
-                            
                             if (_entitiPlayer != null && playerIndex != -1)
                                 _entities.Remove(_entitiPlayer);
 
@@ -125,7 +124,7 @@ namespace ConsoleGame.GameEngine
                             
 
                         }
-                        if (gameWon)
+                        if (gameWon) // если игрок победил
                         {
                             foreach (var entity in _entities)
                             {
@@ -139,12 +138,10 @@ namespace ConsoleGame.GameEngine
                                 }
                             }
                             var enemyIndex = _entities.FindIndex(x => x == _entitiEnemy);
-
                             if (_entitiEnemy != null && enemyIndex != -1)
                                 _entities.Remove(_entitiEnemy);
 
                             var booletIndex = _entities.FindIndex(x => x == _entitiBoolet);
-
                             if (_entitiEnemy != null && booletIndex != -1)
                                 _entities.Remove(_entitiBoolet);
                            
@@ -185,7 +182,7 @@ namespace ConsoleGame.GameEngine
                             //Получаем координаты головы врага
                             if (entity.GetType().Name == "Enemy")
                             {
-                                foreach (Cell cell in entity.GetCells())
+                                foreach (Cell cell in entity.GetCells().ToList())
                                 {
                                     if (cell.Contents == "(")
                                     {
@@ -197,7 +194,7 @@ namespace ConsoleGame.GameEngine
                             //Если попал враг
                             if (entity.GetType().Name == "Boolet")
                             {
-                                foreach (Cell cell in entity.GetCells())
+                                foreach (Cell cell in entity.GetCells().ToList())
                                 {
                                     if (cell.Y == playerStomachY && cell.X == playerStomachX)
                                     {
@@ -211,7 +208,7 @@ namespace ConsoleGame.GameEngine
                                 foreach (Cell cell in (entity as Player).GetGranateCells())
                                 {
 
-                                    if (cell.Y == enemyHeadY && cell.X == enemyHeadX)
+                                    if  (cell.Y == enemyHeadY && cell.X == enemyHeadX)
                                     {
                                         gameWon = true;
                                     }
@@ -221,7 +218,8 @@ namespace ConsoleGame.GameEngine
                     }
                     else
                     {
-                        if(_entitiPlayer != null)
+                        //если был рестарт добавляем объекты обратно в список entities
+                        if (_entitiPlayer != null)
                         {
                             var playerIndex = _entities.FindIndex(x => x == _entitiPlayer);
                             if (playerIndex == -1)

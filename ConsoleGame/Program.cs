@@ -8,25 +8,16 @@ namespace ConsoleGame
         static void Main(string[] args)
         {
 
-            /// <summary>
-            /// Блокировка доступа к _entities (стены в игре)
-            /// </summary>
-            object _gameLock = new object();
             //Вам всегда нужен GameWorld и GraphicsManager
             var game = new GameWorld();
             var graphicsManager = new GraphicsManager(game);
-
-            //var player = new Player();
-            //var enemy = new Enemy();
-            //var boolet = new Boolet();
-            //var power = new Power();
-            //var terrain = new Terrain();
-
+            //Добавляем объекты в игру
             game.RegisterEntity(new Player());
             game.RegisterEntity(new Enemy());
             game.RegisterEntity(new Boolet());
             game.RegisterEntity(new Power());
             game.RegisterEntity(new Terrain());
+            // Стартуем их
             game.Start();
 
             while (true)

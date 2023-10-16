@@ -36,6 +36,7 @@
         /// <returns></returns>
         public List<Cell> GetGranateCells()
         {
+            Model.Remove(null);
             return Model.Where<Cell>(x => x.Contents == "0").ToList();
         }
 
