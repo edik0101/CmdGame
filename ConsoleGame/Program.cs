@@ -1,6 +1,5 @@
 ﻿using ConsoleGame.GameEngine;
 using ConsoleGame.GameObjects;
-using System.Numerics;
 
 namespace ConsoleGame
 {
@@ -8,26 +7,28 @@ namespace ConsoleGame
     {
         static void Main(string[] args)
         {
+
+            /// <summary>
+            /// Блокировка доступа к _entities (стены в игре)
+            /// </summary>
+            object _gameLock = new object();
             //Вам всегда нужен GameWorld и GraphicsManager
             var game = new GameWorld();
             var graphicsManager = new GraphicsManager(game);
 
-            // Кастомные сущности в игре сделанные нами
-            var player = new Player();
-            var enemy = new Enemy();
-            var power = new Power();
-            var boolet = new Boolet();
-            var terrain = new Terrain();
+            //var player = new Player();
+            //var enemy = new Enemy();
+            //var boolet = new Boolet();
+            //var power = new Power();
+            //var terrain = new Terrain();
 
-            // Register your custom Entity
-            game.RegisterEntity(player);
-            game.RegisterEntity(enemy);
-            game.RegisterEntity(boolet);
-            game.RegisterEntity(power);
-            game.RegisterEntity(terrain);
-            
-            // Standard Game Loop
+            game.RegisterEntity(new Player());
+            game.RegisterEntity(new Enemy());
+            game.RegisterEntity(new Boolet());
+            game.RegisterEntity(new Power());
+            game.RegisterEntity(new Terrain());
             game.Start();
+
             while (true)
             {
                 // Update the game
@@ -37,9 +38,11 @@ namespace ConsoleGame
                 graphicsManager.Update();
                 graphicsManager.Draw();
 
-                // Просто чтобы не забивать процессор
+                // Просто чтобы не забивать процессор, частота обнавления по сути
                 Thread.Sleep(20);
             }
         }
     }
 }
+
+

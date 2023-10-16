@@ -46,7 +46,6 @@
             animationThread.Start();
         }
 
-     
         /// <summary>
         /// Анимация
         /// </summary>

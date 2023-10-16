@@ -9,7 +9,7 @@
         /// Чем мы будем управлять
         /// </summary>
 
-        public List<Cell> Model;
+        public static List<Cell> Model;
         /// <summary>
         /// Получения кординат нашего объекта управления по Х
         /// </summary>
@@ -25,7 +25,7 @@
         /// <returns></returns>
         public override List<Cell> GetCells()
         {
-            return Model ;
+            return Model;
         }
 
         /// <summary>
@@ -39,11 +39,11 @@
             /// </summary>        
             int position = 27; //c 27 до 43
             Random random = new Random();
-            position = random.Next(27, 43);
+            position = random.Next(27, 39);
             //    ()
             //'-,-[]\
             //    ||
-            Model = new List<Cell> { 
+            Model = new List<Cell> {
                 new Cell(position + 4,15,"("), new Cell(position + 5,15,")"),
             new Cell(position,16, "'"), new Cell(position + 1,16, "-"), new Cell(position + 2,16, ","),new Cell(position + 3,16, "-"),
             new Cell(position + 4,16, "["),new Cell(position + 5,16, "]"),new Cell(position + 6,16, "\\"),
@@ -52,21 +52,22 @@
             animationThread.Start();
         }
 
-     
         /// <summary>
         /// Анимация
         /// </summary>
         private void Animate()
         {
+            //if (token.IsCancellationRequested)
+            //    return;
             while (true)
             {
-                foreach(Cell cell in Model)
+                foreach (Cell cell in Model)
                 {
-                    if(cell.Contents == "\\")
+                    if (cell.Contents == "\\")
                         cell.Contents = "V";
                     else if (cell.Contents == "V")
                         cell.Contents = "\\";
-                    
+
                 }
 
                 Thread.Sleep(10000);

@@ -37,6 +37,8 @@ namespace ConsoleGame.GameEngine
             Console.SetWindowSize(gameWorld.X + 2, gameWorld.Y + 5);
             Console.BufferWidth = gameWorld.X + 2;
             Console.BufferHeight = gameWorld.Y + 5;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Green;
             gameSceneBuilder = new StringBuilder(gameWorld.X * gameWorld.Y + 1);//в скобочках передаем емкость стрингбилдера
         }
         #endregion
@@ -47,7 +49,6 @@ namespace ConsoleGame.GameEngine
         /// </summary>
         public void Update()
         {
-            //TODO найти частоту обнавления
             gameSceneBuilder.Clear();
             for (int y = 0; y < gameWorld.Y; y++)
             {

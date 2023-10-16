@@ -5,13 +5,12 @@ namespace ConsoleGame.GameObjects
     /// <summary>
     /// Окружение, задний фон
     /// </summary>
-    internal class GameOver : GameEntity
+    internal class GameWon : GameEntity
     {
         //само окружения
-        public List<Cell> Model = new() { new Cell(42, 4, "O"),
-                new Cell(43, 4, "V"),
-                new Cell(44, 4, "E"),
-                new Cell(45, 4, "R")
+        public List<Cell> Model = new() { new Cell(42, 4, "W"),
+                new Cell(43, 4, "O"),
+                new Cell(44, 4, "N")
             };
 
         public override List<Cell> GetCells()
@@ -21,8 +20,7 @@ namespace ConsoleGame.GameObjects
 
         public override void Start()
         {
-            
+            throw new NotImplementedException();
         }
-
     }
 }

@@ -1,9 +1,5 @@
 ﻿using ConsoleGame.GameObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.Design;
 
 namespace ConsoleGame.GameEngine
 {
@@ -38,6 +34,14 @@ namespace ConsoleGame.GameEngine
         /// Блокировка доступа к _entities (стены в игре)
         /// </summary>
         private readonly object _entitiesLock = new object();
+
+        int playerStomachX = 0;
+        int playerStomachY = 0;
+        int enemyHeadX = 0;
+        int enemyHeadY = 0;
+        public bool isRestart = false;
+        public bool gameOver = false;
+        public bool gameWon = false;
         #endregion
 
         #region Конструктор
@@ -74,65 +78,190 @@ namespace ConsoleGame.GameEngine
                     entity.Start();
                 }
             }
-
         }
-        int playerStomachX = 0;
-        int playerStomachY = 0;
-        bool gameOver = false;
+        Player _entitiPlayer = null;
+        Enemy _entitiEnemy = null;
+        Boolet _entitiBoolet = null;
+        GameOver _gameOver = new GameOver();
+        GameWon _gameWon = new GameWon();
+
         /// <summary>
         /// Обнавление GameWorld каждый frame
+        /// и логика игры
         /// </summary>
         public void Update()
         {
+
             lock (_boardLock)
             {
                 lock (_entitiesLock)
                 {
-                    InitiateGameBoard();
-                    if (gameOver)
-                    {
-                        Player _entiti = null;
+                    if (!isRestart) {
+                        InitiateGameBoard();
+                        if (_entities.Count == 0)
+                            return;
+                        if (gameOver)
+                        {
+                            
+                            foreach (var entity in _entities)
+                            {
+                                if (entity.GetType().Name == "Player")
+                                {
+                                    _entitiPlayer = (Player)entity;
+                                }
+                            }
+                            var playerIndex = _entities.FindIndex(x => x == _entitiPlayer);
+                            
+                            if (_entitiPlayer != null && playerIndex != -1)
+                                _entities.Remove(_entitiPlayer);
+
+                            var gameOverIndex = _entities.FindIndex(x => x == _gameOver);
+                            if (gameOverIndex == -1)
+                            {
+                                _entities.Add(_gameOver);
+                            }
+                           
+                            gameOver = false;
+                            
+
+                        }
+                        if (gameWon)
+                        {
+                            foreach (var entity in _entities)
+                            {
+                                if (entity.GetType().Name == "Enemy")
+                                {
+                                    _entitiEnemy = (Enemy)entity;
+                                }
+                                if (entity.GetType().Name == "Boolet")
+                                {
+                                    _entitiBoolet = (Boolet)entity;
+                                }
+                            }
+                            var enemyIndex = _entities.FindIndex(x => x == _entitiEnemy);
+
+                            if (_entitiEnemy != null && enemyIndex != -1)
+                                _entities.Remove(_entitiEnemy);
+
+                            var booletIndex = _entities.FindIndex(x => x == _entitiBoolet);
+
+                            if (_entitiEnemy != null && booletIndex != -1)
+                                _entities.Remove(_entitiBoolet);
+                           
+
+                            var gameWonIndex = _entities.FindIndex(x => x == _gameWon);
+                            if (gameWonIndex == -1)
+                            {
+                                _entities.Add(_gameWon);
+                            }
+                            
+                            gameWon = false;
+                            
+                        }
+
                         foreach (var entity in _entities)
                         {
+                            foreach (Cell cell in entity.GetCells().ToList())
+                            {
+                                if(cell == null) continue;
+                                //дополнительнвая проверка,чтобы не выйти за рамки
+                                if (cell.X > X || cell.Y > Y || cell.X < 0 || cell.Y < 0)
+                                    continue;
+                                _board[cell.X, cell.Y] = cell;
+                            }
+                            //Получаем координаты живота игрока
                             if (entity.GetType().Name == "Player")
                             {
-                                _entiti = (Player)entity;
+                                foreach (Cell cell in entity.GetCells().ToList())
+                                {
+                                    if (cell == null) continue;
+                                    if (cell.Contents == "O")
+                                    {
+                                        playerStomachX = cell.X;
+                                        playerStomachY = cell.Y;
+                                    }
+                                }
                             }
-                        }
-                        if(_entiti != null)
-                            _entities.Remove(_entiti);
-                        GameOver gameOver = new GameOver();
-                        _entities.Add(gameOver);
+                            //Получаем координаты головы врага
+                            if (entity.GetType().Name == "Enemy")
+                            {
+                                foreach (Cell cell in entity.GetCells())
+                                {
+                                    if (cell.Contents == "(")
+                                    {
+                                        enemyHeadX = cell.X;
+                                        enemyHeadY = cell.Y;
+                                    }
+                                }
+                            }
+                            //Если попал враг
+                            if (entity.GetType().Name == "Boolet")
+                            {
+                                foreach (Cell cell in entity.GetCells())
+                                {
+                                    if (cell.Y == playerStomachY && cell.X == playerStomachX)
+                                    {
+                                        gameOver = true;
+                                    }
+                                }
+                            }
+                            //Если попал игрок
+                            if (entity.GetType().Name == "Player")
+                            {
+                                foreach (Cell cell in (entity as Player).GetGranateCells())
+                                {
 
-                    } 
-                    foreach (var entity in _entities)
+                                    if (cell.Y == enemyHeadY && cell.X == enemyHeadX)
+                                    {
+                                        gameWon = true;
+                                    }
+                                }
+                            }
+                        } 
+                    }
+                    else
                     {
+                        if(_entitiPlayer != null)
+                        {
+                            var playerIndex = _entities.FindIndex(x => x == _entitiPlayer);
+                            if (playerIndex == -1)
+                            {
+                                _entities.Add(_entitiPlayer);
+                            }
+                        }
+
+                        if (_entitiEnemy != null)
+                        {
+                            var enemyIndex = _entities.FindIndex(x => x == _entitiEnemy);
+                            if (enemyIndex == -1)
+                            {
+                                _entities.Add(_entitiEnemy);
+                                _entitiEnemy.Start();
+                            }
+                        }
+
+                        if (_entitiBoolet != null)
+                        {
+                            var booletIndex = _entities.FindIndex(x => x == _entitiBoolet);
+                            if (booletIndex == -1)
+                            {
+                                _entities.Add(_entitiBoolet);
+                                _entitiBoolet.Start();
+                            }
+                        }
+                        var gameOverIndex = _entities.FindIndex(x => x == _gameOver);
+                        if (gameOverIndex != -1)
+                        {
+                            _entities.Remove(_gameOver);
+                        }
                         
-                        foreach (Cell cell in entity.GetCells())
+                        var gameWonIndex = _entities.FindIndex(x => x == _gameWon);
+                        if (gameWonIndex != -1)
                         {
-                            _board[cell.X, cell.Y] = cell;
-                        }
-                        if (entity.GetType().Name == "Player")
-                        {
-                            foreach (Cell cell in entity.GetCells())
-                            {
-                                if (cell.Contents == "O")
-                                {
-                                    playerStomachX = cell.X;
-                                    playerStomachY = cell.Y;
-                                }
-                            }
-                        }
-                        if (entity.GetType().Name == "Boolet")
-                        {
-                            foreach (Cell cell in entity.GetCells())
-                            {
-                                if (cell.Y == playerStomachY && cell.X == playerStomachX)
-                                {
-                                    gameOver = true;
-                                }
-                            }
-                        }
+                            _entities.Remove(_gameWon);
+                        }       
+                        
+                        isRestart = false;
                     }
                 }
                  
@@ -142,6 +271,17 @@ namespace ConsoleGame.GameEngine
             }
         }
 
+        /// <summary>
+        /// Удаляем объекты
+        /// </summary>
+        public void ClearWorld()
+        {
+            lock (_entitiesLock)
+            {
+                _entities.Clear();
+            }
+        }
+        
         /// <summary>
         /// Зарегистрируйте GameWorld в GameEntity
         /// Регистрирует все игровые сущности

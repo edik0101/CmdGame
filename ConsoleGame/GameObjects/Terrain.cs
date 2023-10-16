@@ -1,4 +1,5 @@
 ﻿using ConsoleGame.GameEngine;
+using System.Reflection;
 
 namespace ConsoleGame.GameObjects
 {
@@ -39,16 +40,18 @@ namespace ConsoleGame.GameObjects
                 Model.Add(new Cell(i, 19, "#"));
             }
 
-
             Task animationThread = new(Animate);
             animationThread.Start();
         }
+
 
         /// <summary>
         /// Анимация
         /// </summary>
         private void Animate()
         {
+            //if (token.IsCancellationRequested)
+            //    return;
             while (true)
             {
                 foreach (Cell cell in Model)
